@@ -75,9 +75,9 @@ private:
 	int number_of_ghost_cells = 2;
 
 	amrex::Vector<std::unique_ptr<amrex::MultiFab> > displacement; ///< Multicomponent field variable storing pointwise displacements
-	amrex::Vector<std::unique_ptr<amrex::MultiFab> > displacement_nm1 ///< Multicomponent field variable storing pointwise displacement for t=t_{n-1}
-	amrex::Vector<std::unique_ptr<amrex::MultiFab> > displacement_nm2 ///< Multicomponent field variable storing pointwise displacement for t=t_{n-2}
-	amrex::Vector<std::unique_ptr<amrex::MultiFab> > velocity ///< Multicomponent field variable storing pointwise velocity for t=t_n
+	amrex::Vector<std::unique_ptr<amrex::MultiFab> > displacement_nm1; ///< Multicomponent field variable storing pointwise displacement for t=t_{n-1}
+	amrex::Vector<std::unique_ptr<amrex::MultiFab> > displacement_nm2; ///< Multicomponent field variable storing pointwise displacement for t=t_{n-2}
+	amrex::Vector<std::unique_ptr<amrex::MultiFab> > velocity; ///< Multicomponent field variable storing pointwise velocity for t=t_n
 	amrex::Vector<std::unique_ptr<amrex::MultiFab> > residual; ///< Multicomponent field variable storing pointwise displacements
 	amrex::Vector<std::unique_ptr<amrex::MultiFab> > strain; ///< Multicomponent field variable storing pointwise strains (6 components)
 	amrex::Vector<std::unique_ptr<amrex::MultiFab> > stress; ///< Multicomponent field variable storing pointwise strains (6 components)

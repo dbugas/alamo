@@ -66,7 +66,7 @@ ElasticDynamics::ElasticDynamics() : Integrator()
 			std::string elastic_grid_str;
 			pp.query("grid",elastic_grid_str);
 			if (elastic_grid_str == "node") elastic.grid = Grid::Node;
-			else if (elastic_grid_str == "cell") Util::Abort(INFO, "Cell elasitc model is not being used here.")
+			else if (elastic_grid_str == "cell") Util::Abort(INFO, "Cell elasitc model is not being used here.");
 
 
 			if (elastic.grid == Grid::Node)
@@ -137,9 +137,9 @@ ElasticDynamics::Advance (int lev, amrex::Real time, amrex::Real dt)
 		FArrayBox &displacement_box     = (*displacement[lev])[mfi];
 		FArrayBox &displacement_box_nm1     = (*displacement_nm1[lev])[mfi];
 		FArrayBox &displacement_box_nm2     = (*displacement_nm2[lev])[mfi];
-		FArrayBox &divsigma_box     = (*divsigmalev])[mfi];
-		FArrayBox &rhs_box     = (*rhs[lev])[mfi];
-		FArrayBox &velocity_box = (*velocity[ilev])[mfi];
+		FArrayBox &divsigma_box     = (*divsigma[lev])[mfi];
+		FArrayBox &rhs_box     = (*body_force[lev])[mfi];
+		FArrayBox &velocity_box = (*velocity[lev])[mfi];
 
 		AMREX_D_TERM(for (int m1 = bx.loVect()[0]; m1<=bx.hiVect()[0]; m1++),
 			     for (int m2 = bx.loVect()[1]; m2<=bx.hiVect()[1]; m2++),
@@ -166,7 +166,7 @@ ElasticDynamics::Initialize (int lev)
 		velocity[lev].get()->setVal(0.0);
 		strain[lev].get()->setVal(0.0); 
 		stress[lev].get()->setVal(0.0); 
-		divsigma[lev].get->setVal(0.0);
+		divsigma[lev].get()->setVal(0.0);
 		stress_vm[lev].get()->setVal(0.0);
 		body_force[lev].get()->setVal(0.0);
 		energy[lev].get()->setVal(0.0); 
@@ -189,8 +189,8 @@ ElasticDynamics::TagCellsForRefinement (int lev, amrex::TagBoxArray& tags, amrex
 		amrex::BaseFab<amrex::Real> &displacement_box = (*displacement[lev])[mfi];
 
 		AMREX_D_TERM(	for (int i = bx.loVect()[0]; i <= bx.hiVect()[0]-1; i++),
-						for (int i = bx.loVect()[0]; i <= bx.hiVect()[0]-1; i++),
-						for (int i = bx.loVect()[0]; i <= bx.hiVect()[0]-1; i++) )
+						for (int j = bx.loVect()[1]; j <= bx.hiVect()[1]-1; j++),
+						for (int k = bx.loVect()[2]; k <= bx.hiVect()[2]-1; k++) )
 		{
 			for (int n = 0; n < AMREX_SPACEDIM; n++)
 			{
@@ -254,8 +254,8 @@ void ElasticDynamics::TimeStepComplete(amrex::Real /*time*/, int /*iter*/)
 	int nlevels = maxLevel() + 1;
 	for (int ilev = 0; ilev<nlevels; ilev++)
 	{
-		amrex::MultiFab::Copy(displacement_nm2[ilev], displacement_nm1[ilev], 0, 0, AMREX_SPACEDIM, 2);
-		amrex::MultiFab::Copy(displacement_nm1[ilev], displacement[ilev], 0, 0, AMREX_SPACEDIM, 2);
+		amrex::MultiFab::Copy(*displacement_nm2[ilev], *displacement_nm1[ilev], 0, 0, AMREX_SPACEDIM, 2);
+		amrex::MultiFab::Copy(*displacement_nm1[ilev], *displacement[ilev], 0, 0, AMREX_SPACEDIM, 2);
 	}
 }
 
@@ -336,7 +336,7 @@ void ElasticDynamics::TimeStepBegin(amrex::Real time, int iter)
 
 		for (int ilev = 0; ilev < nlevels; ++ilev) elastic.op->SetModel(ilev,model[ilev]);
 
-		amrex::MLMG solver(elastic.op);
+		amrex::MLMG solver(*elastic.op);
 		solver.apply(GetVecOfPtrs(divsigma),GetVecOfPtrs(displacement_nm1));
 	}
 }
