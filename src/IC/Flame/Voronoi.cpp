@@ -8,7 +8,8 @@ namespace Flame
 Voronoi::Voronoi (amrex::Vector<amrex::Geometry> &_geom, int _number_of_grains)
 	: IC(_geom), number_of_grains(_number_of_grains)
 {
-	AMREX_D_TERM(voronoi_x.resize(number_of_grains);,
+amrex::Print() << "number of grains in IC/Flame/Voronoi.cpp  "<<_number_of_grains << "\n";	
+AMREX_D_TERM(voronoi_x.resize(number_of_grains);,
 					 voronoi_y.resize(number_of_grains);,
 					 voronoi_z.resize(number_of_grains););
 

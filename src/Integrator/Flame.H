@@ -9,7 +9,7 @@
 #include "Util/Util.H"
 #include "Integrator/Integrator.H"
 #include "BC/BC.H"
-#include "IC/Flame/Voronoi.H"
+#include "IC/Flame/PackedSpheres.H"
 #include "IC/Flame/Wedge.H"
 
 namespace Integrator
@@ -33,7 +33,7 @@ private:
 	amrex::Vector<std::unique_ptr<amrex::MultiFab> > FlameSpeedFab;
 	BC::BC *TempBC;
 	BC::BC *EtaBC;
-	IC::Flame::Voronoi *VoronoiIC;
+	IC::Flame::PackedSpheres *PackedSpheresIC;
 
 	// int number_of_fabs = 1;
 	// int number_of_components = 2;

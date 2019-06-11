@@ -2,6 +2,9 @@
 #define IC_VORONOI_FLAME_H_
 
 #include "IC/IC.H"
+#include <AMReX_Print.H>
+#include <AMReX.H>
+
 
 namespace IC
 {

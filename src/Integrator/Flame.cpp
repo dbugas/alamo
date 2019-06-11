@@ -63,7 +63,7 @@ Flame::Flame () : Integrator()
 			     AMREX_D_DECL(bc_hi_1,bc_hi_2,bc_hi_3));
   }
 
-  VoronoiIC = new IC::Flame::Voronoi(geom,fs_number);
+  PackedSpheresIC = new IC::Flame::PackedSpheres(geom,fs_number);
   eta_ic = new IC::Flame::Wedge(geom);
 
   RegisterNewFab(Temp,     TempBC, 1, 1, "Temp");
@@ -97,7 +97,7 @@ void Flame::Initialize (int lev)
 	eta_ic->Initialize(lev,Eta);
 	eta_ic->Initialize(lev,Eta_old);
 	
-	VoronoiIC->Initialize(lev,FlameSpeedFab);
+	PackedSpheresIC->Initialize(lev,FlameSpeedFab);
 }
 
 

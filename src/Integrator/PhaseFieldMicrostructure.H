@@ -20,6 +20,7 @@
 #include "IC/TabulatedInterface.H"
 #include "IC/PerturbedInterface.H"
 #include "IC/Voronoi/Voronoi.H"
+#include "IC/PackedSpheres/PackedSpheres.H"
 #include "IC/Circle.H"
 
 #include "Model/Interface/GrainBoundary/GrainBoundary.H"

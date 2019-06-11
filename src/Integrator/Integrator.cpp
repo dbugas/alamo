@@ -540,7 +540,7 @@ Integrator::Evolve ()
 		if (ParallelDescriptor::IOProcessor()) {
 			std::cout << "STEP " << step+1 << " ends."
 				  << " TIME = " << cur_time << " DT = " << dt[0]
-				  << std::endl;
+                                 << std::endl;
 		}
 
 		// sync up time
